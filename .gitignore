@@ -3,3 +3,6 @@ py-env
 
 # environment variables
 .env
+
+# vscode settings
+.vscode
