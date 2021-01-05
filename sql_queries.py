@@ -46,14 +46,14 @@ staging_songs_table_create = ("""
     CREATE TABLE IF NOT EXISTS staging_songs(
         song_id VARCHAR PRIMARY KEY,
         title VARCHAR NOT NULL,
-        year INTEGER
+        year INTEGER,
         duration FLOAT,
         artist_id VARCHAR NOT NULL,
         artist_latitude DOUBLE PRECISION,
         artist_longitude DOUBLE PRECISION,
         artist_location VARCHAR,
         artist_name VARCHAR NOT NULL,
-        num_songs INTEGER,
+        num_songs INTEGER
     );
 """)
 
@@ -153,11 +153,11 @@ time_table_insert = ("""
 create_table_queries = [
     staging_events_table_create,
     staging_songs_table_create,
-    songplay_table_create,
     user_table_create,
-    song_table_create,
     artist_table_create,
-    time_table_create]
+    time_table_create,
+    song_table_create,
+    songplay_table_create]
 
 drop_table_queries = [
     staging_events_table_drop,
