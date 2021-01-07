@@ -8,20 +8,42 @@ import configparser
 import psycopg2
 from sql_queries import create_table_queries, drop_table_queries
 
+# psycopg2 types
+PGCursor: psycopg2.extensions.cursor = psycopg2.extensions.cursor
+PGConnection: psycopg2.extensions.cursor = psycopg2.extensions.cursor
 
-def drop_tables(cur, conn):
+
+def drop_tables(cur: PGCursor, conn: PGConnection) -> None:
+    """Drop the previously created tables if they exist
+
+    Args:
+        cur: database cursor
+        conn: database connection
+    """
+
     for query in drop_table_queries:
         cur.execute(query)
         conn.commit()
 
 
-def create_tables(cur, conn):
+def create_tables(cur: PGCursor, conn: PGConnection) -> None:
+    """Create empty staging, fact, and dimension tables
+
+    Args:
+        cur: database cursor
+        conn: database connection
+    """
+
     for query in create_table_queries:
         cur.execute(query)
         conn.commit()
 
 
-def main():
+def main() -> None:
+    """Connects to Redshift database, then drops any previously created
+    tables before remaking them as empty tables.
+    """
+
     config = configparser.ConfigParser()
     config.read('dwh.cfg')
 
