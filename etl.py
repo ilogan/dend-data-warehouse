@@ -1,3 +1,10 @@
+"""Loads JSON data from S3 into Redshift database.
+
+1) Loads JSON data into staging tables (~10 mins)
+2) Transforms the data from staging into fact and dimension tables (~1 min)
+
+Note: Run create_tables.py to create clean database before running this file.
+"""
 import configparser
 import psycopg2
 from sql_queries import copy_table_queries, insert_table_queries

@@ -1,3 +1,13 @@
+"""SQL queries used to model the Redshift Database.
+
+Staging Tables (copied from S3 into Redshift):
+    1) staging_events, 2) staging_songs
+
+Fact and Dimension Tables (inserted from staging tables):
+    fact: songplays
+    dimensions: users, songs, artists, time
+"""
+
 import configparser
 
 
