@@ -9,20 +9,40 @@ import configparser
 import psycopg2
 from sql_queries import copy_table_queries, insert_table_queries
 
+# psycopg2 types
+PGCursor: psycopg2.extensions.cursor = psycopg2.extensions.cursor
+PGConnection: psycopg2.extensions.cursor = psycopg2.extensions.cursor
 
-def load_staging_tables(cur, conn):
+
+def load_staging_tables(cur: PGCursor, conn: PGConnection) -> None:
+    """Loads JSON data from S3 into Redshift.
+
+    Args:
+        cur: database cursor
+        conn: database connection
+    """
+
     for query in copy_table_queries:
         cur.execute(query)
         conn.commit()
 
 
-def insert_tables(cur, conn):
+def insert_tables(cur: PGCursor, conn: PGConnection) -> None:
+    """Inserts data from staging tables into fact and dimension tables.
+
+    Args:
+        cur: database cursor
+        conn: database connection
+    """
+
     for query in insert_table_queries:
         cur.execute(query)
         conn.commit()
 
 
-def main():
+def main() -> None:
+    """Connects to Redshift database and populates the tables"""
+
     config = configparser.ConfigParser()
     config.read('dwh.cfg')
 
