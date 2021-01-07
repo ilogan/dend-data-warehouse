@@ -151,18 +151,71 @@ staging_songs_copy = ("""
 # FINAL TABLES
 
 songplay_table_insert = ("""
+    --sql
+    INSERT INTO songplays(
+        start_time,
+        user_id,
+        level,
+        session_id,
+        user_agent,
+        location,
+        song_id,
+        artist_id
+    )
+    SELECT DISTINCT ts,
+                    userId,
+                    level,
+                    sessionId,
+                    userAgent,
+                    location,
+                    s.song_id,
+                    s.artist_id
+    FROM staging_events AS e
+        JOIN staging_songs s
+        ON e.song = s.title
+            AND e.artist = s.artist_name
+    WHERE page = 'NextSong';
 """)
 
 user_table_insert = ("""
+    --sql
+    INSERT INTO users(user_id, first_name, last_name, gender, level)
+    SELECT DISTINCT userId, firstName, lastName, gender, level
+    FROM staging_events
+    WHERE page = 'NextSong';
 """)
 
 song_table_insert = ("""
+    --sql
+    INSERT INTO songs(song_id, title, artist_id, year, duration)
+    SELECT DISTINCT song_id, title, artist_id, year, duration
+    FROM staging_songs;
 """)
 
 artist_table_insert = ("""
+    --sql
+    INSERT INTO artists(artist_id, name, location, latitude, longitude)
+    SELECT DISTINCT artist_id,
+                    artist_name,
+                    artist_location,
+                    artist_latitude,
+                    artist_longitude
+    FROM staging_songs;
 """)
 
 time_table_insert = ("""
+    --sql
+    INSERT INTO time(start_time, hour, day, week, month, year, weekday)
+    SELECT DISTINCT
+        ts,
+        EXTRACT(hour FROM ts),     -- integer 0-23
+        EXTRACT(day FROM ts),      -- integer 1-31
+        EXTRACT(week FROM ts),     -- integer 1-53 (iso)
+        EXTRACT(month FROM ts),    -- integer 1-12
+        EXTRACT(year FROM ts),  -- integer yyyy (iso)
+        EXTRACT(dow FROM ts)   -- integer 1-7 (iso)
+    FROM staging_events
+    WHERE page = 'NextSong';
 """)
 
 # QUERY LISTS
