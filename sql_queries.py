@@ -4,6 +4,8 @@ import configparser
 # CONFIG
 config = configparser.ConfigParser()
 config.read('dwh.cfg')
+config_s3 = config['S3']
+config_iam = config['IAM_ROLE']
 
 # DROP TABLES
 
@@ -126,10 +128,25 @@ time_table_create = ("""
 # STAGING TABLES
 
 staging_events_copy = ("""
-""").format()
+    --sql
+    COPY staging_events
+    FROM {}
+    CREDENTIALS {}
+    REGION 'us-west-2'
+    TIMEFORMAT 'epochmillisecs'
+    FORMAT AS JSON {};
+""").format(config_s3['LOG_DATA'],
+            config_iam['ARN'],
+            config_s3['LOG_JSONPATH'])
 
 staging_songs_copy = ("""
-""").format()
+    --sql
+    COPY staging_songs
+    FROM {}
+    CREDENTIALS {}
+    REGION 'us-west-2'
+    FORMAT AS JSON 'auto';
+""").format(config_s3['SONG_DATA'], config_iam['ARN'])
 
 # FINAL TABLES
 
