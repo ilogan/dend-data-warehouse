@@ -162,16 +162,16 @@ songplay_table_insert = ("""
         song_id,
         artist_id
     )
-    SELECT DISTINCT ts,
-                    userId,
-                    level,
-                    sessionId,
-                    userAgent,
-                    location,
+    SELECT DISTINCT e.ts,
+                    e.userId,
+                    e.level,
+                    e.sessionId,
+                    e.userAgent,
+                    e.location,
                     s.song_id,
                     s.artist_id
     FROM staging_events AS e
-        JOIN staging_songs s
+        JOIN staging_songs AS s
         ON e.song = s.title
             AND e.artist = s.artist_name
     WHERE page = 'NextSong';
