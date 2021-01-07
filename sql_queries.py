@@ -22,10 +22,10 @@ staging_events_table_create = ("""
     CREATE TABLE IF NOT EXISTS staging_events(
         artist VARCHAR,
         auth VARCHAR NOT NULL,
-        firstName VARCHAR NOT NULL,
+        firstName VARCHAR,
         gender CHAR(1),
         itemInSession INTEGER,
-        lastName VARCHAR NOT NULL,
+        lastName VARCHAR,
         length FLOAT,
         level VARCHAR NOT NULL,
         location VARCHAR,
@@ -37,7 +37,7 @@ staging_events_table_create = ("""
         status INTEGER,
         ts TIMESTAMP,
         userAgent VARCHAR,
-        userId INTEGER NOT NULL
+        userId INTEGER
     );
 """)
 
@@ -80,8 +80,8 @@ user_table_create = ("""
     --sql
     CREATE TABLE IF NOT EXISTS users(
         user_id INTEGER PRIMARY KEY SORTKEY,
-        first_name VARCHAR NOT NULL,
-        last_name VARCHAR NOT NULL,
+        first_name VARCHAR,
+        last_name VARCHAR,
         gender CHAR(1),
         level VARCHAR NOT NULL
     ) DISTSTYLE ALL;
