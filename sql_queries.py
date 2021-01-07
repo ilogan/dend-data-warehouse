@@ -60,7 +60,7 @@ staging_songs_table_create = ("""
 songplay_table_create = ("""
     --sql
     CREATE TABLE IF NOT EXISTS songplays(
-        songplay_id IDENTITY(1,1) PRIMARY KEY,
+        songplay_id INTEGER IDENTITY(1,1) PRIMARY KEY,
         start_time TIMESTAMP NOT NULL,
         user_id INTEGER NOT NULL,
         level VARCHAR NOT NULL,
