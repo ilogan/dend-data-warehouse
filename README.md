@@ -84,7 +84,7 @@ The database created follows a star schema and is made up of two staging tables,
 
 ## Running the Scripts
 
-###Initial Setup
+### Initial Setup
 
 1. Clone this repository, then install any project dependencies found in `requirements.txt`
 2. Create a Redshift cluster and ensure it has read access to S3
